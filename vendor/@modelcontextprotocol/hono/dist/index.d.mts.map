@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.mts","names":[],"sources":["../src/hono.ts","../src/middleware/hostHeaderValidation.ts"],"sourcesContent":[],"mappings":";;;;;;AAQA;AAgCgB,UAhCC,uBAAA,CAgCyB;;;;ACjC1C;EAuBgB,IAAA,CAAA,EAAA,MAAA;;;;;;;;;;;;;;;;;;;;;;;;;iBDUA,gBAAA,WAA0B,0BAA+B;;;;;AAhCzE;AAgCA;iBCjCgB,oBAAA,8BAAkD;;;AAAlE;AAuBgB,iBAAA,uBAAA,CAAA,CAA2B,EAAA,iBAAiB"}

@@ -14,9 +14,10 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@cfworker/json-schema": "^4.1.1",
     "@hono/node-server": "^1.19.9",
-    "@modelcontextprotocol/hono": "file:../../modelcontextprotocol/typescript-sdk/packages/middleware/hono",
-    "@modelcontextprotocol/server": "file:../../modelcontextprotocol/typescript-sdk/packages/server",
+    "@modelcontextprotocol/hono": "file:./vendor/@modelcontextprotocol/hono",
+    "@modelcontextprotocol/server": "file:./vendor/@modelcontextprotocol/server",
     "@xchainjs/xchain-client": "^2.0.10",
     "@xchainjs/xchain-midgard": "^1.0.5",
     "@xchainjs/xchain-midgard-query": "^2.0.11",
@@ -28,7 +29,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.3.0",
-    "typescript": "^5.9.3",
-    "tsx": "^4.7.0"
+    "tsx": "^4.7.0",
+    "typescript": "^5.9.3"
   }
 }
