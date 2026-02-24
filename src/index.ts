@@ -7,6 +7,14 @@ import {
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import * as z from "zod/v4";
+import { ProviderRegistry } from "./providers/registry.js";
+import { THORChainProvider } from "./providers/thorchain.js";
+import { createGetAssetsHandler } from "./tools/get-assets.js";
+import { getQuoteHandler } from "./tools/get-quote.js";
+
+// Initialize provider registry
+const registry = new ProviderRegistry();
+registry.register(new THORChainProvider());
 
 // Create the MCP server
 const server = new McpServer({
@@ -34,22 +42,63 @@ server.registerTool(
 );
 
 server.registerTool(
-  "getAssets",
+  "get_swap_assets",
   {
-    title: "Get Available Assets",
-    description: "Returns a list of available swappable assets",
-    inputSchema: z.object({ name: z.string().describe("Name to greet") }),
+    title: "Get Swap Assets",
+    description:
+      "Get all available swap assets from registered providers. Returns asset details including symbol, chain, price, liquidity, and trading volume.",
+    inputSchema: z.object({
+      provider: z
+        .enum(["thorchain"]) // add more providers as needed (ie "lifi", "1inch", etc.)
+        .optional()
+        .describe("Optional: filter by specific provider (e.g., 'thorchain')"),
+    }),
   },
-  async ({ name }: { name: string }): Promise<CallToolResult> => {
-    return {
-      content: [
-        {
-          type: "text",
-          text: `Hello, ${name}! (from Hono + WebStandard transport)`,
-        },
-      ],
-    };
+  createGetAssetsHandler(registry),
+);
+
+server.registerTool(
+  "get_swap_quote",
+  {
+    description: `Get a swap quote from a provider.
+
+    IMPORTANT: Use the exact asset 'identifier' from get_swap_assets response.
+
+    Examples:
+    - THORChain: fromAssetIdentifier: "BTC.BTC", toAssetIdentifier: "ETH.ETH"
+    - THORChain: fromAssetIdentifier: "ETH.USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    `,
+    inputSchema: z.object({
+      provider: z.enum(["thorchain"]),
+      fromAssetIdentifier: z
+        .string()
+        .describe("Exact 'identifier' from get_swap_assets"),
+      toAssetIdentifier: z
+        .string()
+        .describe("Exact 'identifier' from get_swap_assets"),
+      amount: z
+        .number()
+        .describe("Human readable amount (e.g., 1.5 for 1.5 ETH)"),
+      destination: z
+        .string()
+        .describe("Destination address to receive swapped assets"),
+      // refundAddress: z
+      //   .string()
+      //   .optional()
+      //   .describe("Optional refund address if swap fails"),
+      toleranceBps: z
+        .number()
+        .optional()
+        .describe("Slippage tolerance in basis points (default: 300 = 3%)"),
+      options: z
+        .record(z.string(), z.unknown())
+        .optional()
+        .describe(
+          "Provider-specific options (e.g., streamingInterval, streamingQuantity for THORChain)",
+        ),
+    }),
   },
+  getQuoteHandler(registry),
 );
 
 // Create a stateless transport (no options = no session management)

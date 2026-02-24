@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc",
+    "prod": "node build/index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,13 +17,18 @@
     "@hono/node-server": "^1.19.9",
     "@modelcontextprotocol/hono": "file:../../modelcontextprotocol/typescript-sdk/packages/middleware/hono",
     "@modelcontextprotocol/server": "file:../../modelcontextprotocol/typescript-sdk/packages/server",
+    "@xchainjs/xchain-client": "^2.0.10",
     "@xchainjs/xchain-midgard": "^1.0.5",
+    "@xchainjs/xchain-midgard-query": "^2.0.11",
+    "@xchainjs/xchain-thorchain-query": "^2.0.16",
+    "@xchainjs/xchain-util": "^2.0.5",
     "axios": "^1.13.5",
     "hono": "^4.12.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^25.3.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "tsx": "^4.7.0"
   }
 }

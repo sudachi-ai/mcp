@@ -53,17 +53,29 @@ export interface Asset {
   provider: ProviderId;
 
   /**
-   * Asset identifier in the format expected by the provider
-   * - THORChain: "BTC.BTC", "ETH.ETH", "ETH.USDC-0xA0b86..."
-   * - LI.FI/others: chain-specific format
+   * Universal display symbol (e.g., "USDC", "BTC", "ETH")
+   * This is what humans/AI expect as "symbol"
    */
   symbol: string;
 
+  /**
+   * Unique identifier used by the provider API
+   * - THORChain: "ETH.USDC-0xA0b86..."
+   * - LI.FI: "0xA0b86..."
+   * - Kyber: "0xA0b86..."
+   *
+   * pass this to get_swap_quote!
+   */
+  identifier: string;
+
   /** Human-readable name (e.g., "Bitcoin", "USD Coin") */
-  name: string;
+  // name: string;
 
   /** Chain identifier (e.g., "BTC", "ETH", "AVAX") */
   chain: string;
+
+  /** Optional numeric chain ID (e.g., 1 for Ethereum) */
+  chainId?: number;
 
   /** Contract address (for tokens), undefined for native assets */
   address?: string;

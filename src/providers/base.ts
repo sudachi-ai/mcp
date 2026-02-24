@@ -4,6 +4,7 @@ import type {
   ProviderCapabilities,
   ProviderId,
 } from "../types/asset.js";
+import { Quote, QuoteRequest } from "../types/quote.js";
 
 /**
  * Base interface that all swap providers must implement
@@ -23,6 +24,11 @@ export interface SwapProvider {
    * Get all available swap assets from this provider
    */
   getSwapAssets(): Promise<AssetList>;
+
+  /**
+   * Get a swap quote from this provider
+   */
+  getSwapQuote(request: QuoteRequest): Promise<Quote>;
 
   // Future methods (uncomment as needed):
   // getSwapQuote(request: QuoteRequest): Promise<Quote>;
@@ -50,4 +56,5 @@ export abstract class BaseSwapProvider implements SwapProvider {
   }
 
   abstract getSwapAssets(): Promise<AssetList>;
+  abstract getSwapQuote(request: QuoteRequest): Promise<Quote>;
 }
