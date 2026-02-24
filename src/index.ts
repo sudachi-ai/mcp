@@ -27,7 +27,9 @@ server.registerTool(
   {
     title: "Greeting Tool",
     description: "A simple greeting tool",
-    inputSchema: z.object({ name: z.string().describe("Name to greet") }),
+    inputSchema: z.object({
+      name: z.string().describe("Name to greet"),
+    }) as any, // temporary workaround until mcp v2 released on npm
   },
   async ({ name }: { name: string }): Promise<CallToolResult> => {
     return {
@@ -52,7 +54,7 @@ server.registerTool(
         .enum(["thorchain"]) // add more providers as needed (ie "lifi", "1inch", etc.)
         .optional()
         .describe("Optional: filter by specific provider (e.g., 'thorchain')"),
-    }),
+    }) as any, // temporary workaround until mcp v2 released on npm
   },
   createGetAssetsHandler(registry),
 );
@@ -96,7 +98,7 @@ server.registerTool(
         .describe(
           "Provider-specific options (e.g., streamingInterval, streamingQuantity for THORChain)",
         ),
-    }),
+    }) as any, // temporary workaround until mcp v2 released on npm
   },
   getQuoteHandler(registry),
 );
