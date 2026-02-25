@@ -23,27 +23,6 @@ const server = new McpServer({
 });
 
 server.registerTool(
-  "greet",
-  {
-    title: "Greeting Tool",
-    description: "A simple greeting tool",
-    inputSchema: z.object({
-      name: z.string().describe("Name to greet"),
-    }) as any, // temporary workaround until mcp v2 released on npm
-  },
-  async ({ name }: { name: string }): Promise<CallToolResult> => {
-    return {
-      content: [
-        {
-          type: "text",
-          text: `Hello, ${name}! (from Hono + WebStandard transport)`,
-        },
-      ],
-    };
-  },
-);
-
-server.registerTool(
   "get_swap_assets",
   {
     title: "Get Swap Assets",
@@ -54,7 +33,7 @@ server.registerTool(
         .enum(["thorchain"]) // add more providers as needed (ie "lifi", "1inch", etc.)
         .optional()
         .describe("Optional: filter by specific provider (e.g., 'thorchain')"),
-    }) as any, // temporary workaround until mcp v2 released on npm
+    }), //  as any, // temporary workaround until mcp v2 released on npm
   },
   createGetAssetsHandler(registry),
 );
@@ -98,7 +77,7 @@ server.registerTool(
         .describe(
           "Provider-specific options (e.g., streamingInterval, streamingQuantity for THORChain)",
         ),
-    }) as any, // temporary workaround until mcp v2 released on npm
+    }), //  as any, // temporary workaround until mcp v2 released on npm
   },
   getQuoteHandler(registry),
 );
